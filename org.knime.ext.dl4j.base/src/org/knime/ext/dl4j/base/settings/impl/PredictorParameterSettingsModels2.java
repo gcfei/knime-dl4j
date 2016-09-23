@@ -42,9 +42,6 @@
  *******************************************************************************/
 package org.knime.ext.dl4j.base.settings.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knime.core.node.defaultnodesettings.SettingsModel;
 import org.knime.core.node.defaultnodesettings.SettingsModelBoolean;
 import org.knime.ext.dl4j.base.settings.IParameterSettingsModels;
@@ -56,18 +53,9 @@ import org.knime.ext.dl4j.base.settings.enumerate.PredictorPrameter;
  *
  * @author David Kolb, KNIME.com GmbH
  */
-@Deprecated
-public class PredictorParameterSettingsModels implements IParameterSettingsModels<PredictorPrameter> {
+public class PredictorParameterSettingsModels2 extends AbstractMapSetParameterSettingsModels<PredictorPrameter> {
 
     static final boolean DEFAULT_BOOLEAN = false;
-
-    private SettingsModelBoolean m_appendPrediction;
-
-    private SettingsModelBoolean m_predictSteps;
-
-    private SettingsModelBoolean m_appendScore;
-
-    private final List<SettingsModel> m_allInitializedSettings = new ArrayList<>();
 
     @Override
     public SettingsModel createParameter(final PredictorPrameter enumerate) throws IllegalArgumentException {
@@ -82,48 +70,4 @@ public class PredictorParameterSettingsModels implements IParameterSettingsModel
                 throw new IllegalArgumentException("No case defined for Predictor Parameter: " + enumerate);
         }
     }
-
-    @Override
-    public void setParameter(final PredictorPrameter enumerate) throws IllegalArgumentException {
-        switch (enumerate) {
-            case APPEND_PREDICTION:
-                m_appendPrediction = (SettingsModelBoolean)createParameter(enumerate);
-                addToSet(m_appendPrediction);
-                break;
-            case PREDICT_STEPS:
-                m_predictSteps = (SettingsModelBoolean)createParameter(enumerate);
-                addToSet(m_predictSteps);
-                break;
-            case APPEND_SCORE:
-                m_appendScore = (SettingsModelBoolean)createParameter(enumerate);
-                addToSet(m_appendScore);
-                break;
-            default:
-                throw new IllegalArgumentException("No case defined for Predictor Parameter: " + enumerate);
-        }
-    }
-
-    private void addToSet(final SettingsModel model) {
-        if (!m_allInitializedSettings.contains(model)) {
-            m_allInitializedSettings.add(model);
-        }
-    }
-
-    public SettingsModelBoolean getPredictSteps() {
-        return m_predictSteps;
-    }
-
-    public SettingsModelBoolean getAppendPrediction() {
-        return m_appendPrediction;
-    }
-
-    public SettingsModelBoolean getAppendScore() {
-        return m_appendScore;
-    }
-
-    @Override
-    public List<SettingsModel> getAllInitializedSettings() {
-        return m_allInitializedSettings;
-    }
-
 }

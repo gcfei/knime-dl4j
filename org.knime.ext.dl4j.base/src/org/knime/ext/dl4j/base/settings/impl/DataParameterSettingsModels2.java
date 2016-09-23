@@ -42,8 +42,6 @@
  *******************************************************************************/
 package org.knime.ext.dl4j.base.settings.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,32 +63,9 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  *
  * @author David Kolb, KNIME.com GmbH
  */
-@Deprecated
-public class DataParameterSettingsModels implements IParameterSettingsModels<DataParameter> {
+public class DataParameterSettingsModels2 extends AbstractMapSetParameterSettingsModels<DataParameter> {
 
     private Class<? extends DoubleValue>[] m_allowedTypes;
-
-    private SettingsModelIntegerBounded m_batchSize;
-
-    private SettingsModelIntegerBounded m_epochs;
-
-    private SettingsModelString m_labelColumn;
-
-    private SettingsModelColumnFilter2 m_featureColumnSelection2;
-
-    private SettingsModelColumnFilter2 m_targetColumnSelection2;
-
-    private SettingsModelFilterString m_featureColumnSelection;
-
-    private SettingsModelFilterString m_targetColumnSelection;
-
-    private SettingsModelString m_imageSize;
-
-    private SettingsModelString m_documentColumn;
-
-    private SettingsModelString m_sequenceColumn;
-
-    private final List<SettingsModel> m_allInitializedSettings = new ArrayList<>();
 
     @Override
     public SettingsModel createParameter(final DataParameter enumerate) throws IllegalArgumentException {
@@ -118,113 +93,6 @@ public class DataParameterSettingsModels implements IParameterSettingsModels<Dat
                 return new SettingsModelColumnFilter2("target_column_selection2", getAllowedTypes());
             default:
                 throw new IllegalArgumentException("No case defined for Data Parameter: " + enumerate);
-        }
-    }
-
-    @Override
-    public void setParameter(final DataParameter enumerate) throws IllegalArgumentException {
-        switch (enumerate) {
-            case BATCH_SIZE:
-                m_batchSize = (SettingsModelIntegerBounded)createParameter(enumerate);
-                if (!m_allInitializedSettings.contains(m_batchSize)) {
-                    m_allInitializedSettings.add(m_batchSize);
-                }
-                break;
-            case EPOCHS:
-                m_epochs = (SettingsModelIntegerBounded)createParameter(enumerate);
-                addToSet(m_epochs);
-                break;
-            case FEATURE_COLUMN_SELECTION:
-                m_featureColumnSelection = (SettingsModelFilterString)createParameter(enumerate);
-                if (!m_allInitializedSettings.contains(m_featureColumnSelection)) {
-                    m_allInitializedSettings.add(m_featureColumnSelection);
-                }
-                break;
-            case LABEL_COLUMN:
-                m_labelColumn = (SettingsModelString)createParameter(enumerate);
-                if (!m_allInitializedSettings.contains(m_labelColumn)) {
-                    m_allInitializedSettings.add(m_labelColumn);
-                }
-                break;
-            case IMAGE_SIZE:
-                m_imageSize = (SettingsModelString)createParameter(enumerate);
-                if (!m_allInitializedSettings.contains(m_imageSize)) {
-                    m_allInitializedSettings.add(m_imageSize);
-                }
-                break;
-            case DOCUMENT_COLUMN:
-                m_documentColumn = (SettingsModelString)createParameter(enumerate);
-                addToSet(m_documentColumn);
-                break;
-            case SEQUENCE_COLUMN:
-                m_sequenceColumn = (SettingsModelString)createParameter(enumerate);
-                addToSet(m_sequenceColumn);
-                break;
-            case TARGET_COLUMN_SELECTION:
-                m_targetColumnSelection = (SettingsModelFilterString)createParameter(enumerate);
-                addToSet(m_targetColumnSelection);
-                break;
-            case FEATURE_COLUMN_SELECTION2:
-                m_featureColumnSelection2 = (SettingsModelColumnFilter2)createParameter(enumerate);
-                addToSet(m_featureColumnSelection2);
-                break;
-            case TARGET_COLUMN_SELECTION2:
-                m_targetColumnSelection2 = (SettingsModelColumnFilter2)createParameter(enumerate);
-                addToSet(m_targetColumnSelection2);
-                break;
-            default:
-                throw new IllegalArgumentException("No case defined for Data Parameter: " + enumerate);
-        }
-    }
-
-    public SettingsModelColumnFilter2 getTargetColumnSelection2() {
-        return m_targetColumnSelection2;
-    }
-
-    public SettingsModelColumnFilter2 getFeatureColumnSelection2() {
-        return m_featureColumnSelection2;
-    }
-
-    public SettingsModelFilterString getTargetColumnSelection() {
-        return m_targetColumnSelection;
-    }
-
-    public SettingsModelIntegerBounded getBatchSize() {
-        return m_batchSize;
-    }
-
-    public SettingsModelIntegerBounded getEpochs() {
-        return m_epochs;
-    }
-
-    public SettingsModelString getLabelColumn() {
-        return m_labelColumn;
-    }
-
-    public SettingsModelFilterString getFeatureColumnSelection() {
-        return m_featureColumnSelection;
-    }
-
-    public SettingsModelString getImageSize() {
-        return m_imageSize;
-    }
-
-    public SettingsModelString getDocumentColumn() {
-        return m_documentColumn;
-    }
-
-    public SettingsModelString getSequenceColumn() {
-        return m_sequenceColumn;
-    }
-
-    @Override
-    public List<SettingsModel> getAllInitializedSettings() {
-        return m_allInitializedSettings;
-    }
-
-    private void addToSet(final SettingsModel model) {
-        if (!m_allInitializedSettings.contains(model)) {
-            m_allInitializedSettings.add(model);
         }
     }
 
