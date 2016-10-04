@@ -49,7 +49,7 @@ import org.knime.core.node.defaultnodesettings.DialogComponentString;
 import org.knime.core.node.defaultnodesettings.DialogComponentStringSelection;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
 import org.knime.ext.dl4j.base.settings.enumerate.LayerParameter;
-import org.knime.ext.dl4j.base.settings.impl.LayerParameterSettingsModels;
+import org.knime.ext.dl4j.base.settings.impl.LayerParameterSettingsModels2;
 import org.knime.ext.dl4j.base.util.EnumUtils;
 
 /**
@@ -70,7 +70,7 @@ public class PoolingLayerNodeDialog extends DefaultNodeSettingsPane {
      * New pane for configuring the SubsamplingLayer node.
      */
     protected PoolingLayerNodeDialog() {
-        final LayerParameterSettingsModels dnnSettingsModels = new LayerParameterSettingsModels();
+        final LayerParameterSettingsModels2 dnnSettingsModels = new LayerParameterSettingsModels2();
 
         try {
             addDialogComponent(new DialogComponentStringSelection(

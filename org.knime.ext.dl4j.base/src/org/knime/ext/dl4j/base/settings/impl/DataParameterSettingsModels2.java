@@ -55,7 +55,6 @@ import org.knime.core.node.defaultnodesettings.SettingsModelIntegerBounded;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
 import org.knime.ext.dl4j.base.settings.IParameterSettingsModels;
 import org.knime.ext.dl4j.base.settings.enumerate.DataParameter;
-import org.nd4j.linalg.api.ndarray.INDArray;
 
 /**
  * Implementation of {@link IParameterSettingsModels} to store and create {@link SettingsModel}s for
@@ -105,7 +104,7 @@ public class DataParameterSettingsModels2 extends AbstractMapSetParameterSetting
         if (m_allowedTypes == null) {
             //get all types from where we can convert to INDArray
             final Set<Class<?>> possibleTypes =
-                DataCellToJavaConverterRegistry.getInstance().getFactoriesForDestinationType(INDArray.class)
+                DataCellToJavaConverterRegistry.getInstance().getFactoriesForDestinationType(Double[].class)
                     // Get the destination type of factories which can handle mySourceType
                     .stream().map((factory) -> factory.getSourceType())
                     // Put all the destination types into a set

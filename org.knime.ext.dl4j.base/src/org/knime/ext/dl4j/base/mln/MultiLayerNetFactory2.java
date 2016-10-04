@@ -54,6 +54,7 @@ import org.deeplearning4j.nn.conf.distribution.BinomialDistribution;
 import org.deeplearning4j.nn.conf.distribution.Distribution;
 import org.deeplearning4j.nn.conf.distribution.NormalDistribution;
 import org.deeplearning4j.nn.conf.distribution.UniformDistribution;
+import org.deeplearning4j.nn.conf.inputs.InputType;
 import org.deeplearning4j.nn.conf.layers.Layer;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
@@ -62,15 +63,13 @@ import org.knime.ext.dl4j.base.settings.enumerate.LearnerParameter;
 import org.knime.ext.dl4j.base.settings.enumerate.dl4j.DL4JDistribution;
 import org.knime.ext.dl4j.base.settings.enumerate.dl4j.DL4JGradientNormalization;
 import org.knime.ext.dl4j.base.settings.enumerate.dl4j.DL4JOptimizationAlgorithm;
-import org.knime.ext.dl4j.base.settings.impl.LearnerParameterSettingsModels;
 import org.knime.ext.dl4j.base.settings.impl.LearnerParameterSettingsModels2;
-import org.knime.ext.dl4j.base.util.ConfigurationUtils;
 import org.knime.ext.dl4j.base.util.DLModelPortObjectUtils;
 import org.knime.ext.dl4j.base.util.ParameterUtils;
 
 /**
  * Factory class for creating {@link MultiLayerNetwork}s using {@link List} of {@link Layer}s and
- * {@link LearnerParameterSettingsModels}.
+ * {@link LearnerParameterSettingsModels2}.
  *
  * @author David Kolb, KNIME.com GmbH
  */
@@ -278,7 +277,8 @@ public class MultiLayerNetFactory2 {
         }
 
         //setup number of input and output neurons
-        ConfigurationUtils.setupLayers(layersCopy, m_nIn);
+        //ConfigurationUtils.setupLayers(layersCopy, m_nIn);
+        //substituted with 'setInputType(InputType.feedForward(m_nIn)'
 
         if (m_useSeed) {
             nnConfigBuilder.seed(m_seed);
@@ -366,6 +366,7 @@ public class MultiLayerNetFactory2 {
         }
         listBuilder.pretrain(m_usePretrain);
         listBuilder.backprop(m_useBackprop);
+        listBuilder.setInputType(InputType.feedForward(m_nIn));
 
         return listBuilder;
     }
