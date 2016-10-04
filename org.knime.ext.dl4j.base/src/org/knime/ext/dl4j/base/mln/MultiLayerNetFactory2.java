@@ -121,6 +121,7 @@ public class MultiLayerNetFactory2 {
      * Helper method for creating a new {@link MultiLayerNetwork} using layers and parameters.
      *
      * @param layers
+     * @param learnerParameters
      * @return a network containing specified layers and learner parameter
      */
     protected MultiLayerNetwork createMlnWithLearnerParameters(final List<Layer> layers,
@@ -159,10 +160,10 @@ public class MultiLayerNetFactory2 {
 
     /**
      * Creates a {@link org.deeplearning4j.nn.conf.NeuralNetConfiguration.ListBuilder} using specified list of layers
-     * and parameter values from members. Need to make sure that the <code>init()</code> methods was called before
-     * calling this method if other values, than the default values, for the network parameters should be used.
+     * and parameter.
      *
      * @param layers the layers which should be used to create the network
+     * @param lp
      * @return builder with set layers and parameters
      */
     protected NeuralNetConfiguration.ListBuilder createListBuilderWithLearnerParameters(final List<Layer> layers,
@@ -366,6 +367,9 @@ public class MultiLayerNetFactory2 {
         }
         listBuilder.pretrain(m_usePretrain);
         listBuilder.backprop(m_useBackprop);
+
+        //infer correct number of inputs and outputs for each layer by using the number of inputs of the first layer
+        //and the number of outputs for the following ones
         listBuilder.setInputType(InputType.feedForward(m_nIn));
 
         return listBuilder;
