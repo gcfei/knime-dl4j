@@ -4,30 +4,33 @@ def BN = BRANCH_NAME == "master" || BRANCH_NAME.startsWith("releases/") ? BRANCH
 library "knime-pipeline@$BN"
 
 properties([
-	pipelineTriggers([
-		upstream('knime-base/' + env.BRANCH_NAME.replaceAll('/', '%2F'))
-	]),
-	buildDiscarder(logRotator(numToKeepStr: '5')),
-	disableConcurrentBuilds()
+    // provide a list of upstream jobs which should trigger a rebuild of this job
+    pipelineTriggers([
+        upstream('knime-base/' + env.BRANCH_NAME.replaceAll('/', '%2F'))      
+    ]),
+    buildDiscarder(logRotator(numToKeepStr: '5')),
+    disableConcurrentBuilds()
 ])
 
 try {
-	knimetools.defaultTychoBuild('org.knime.update.ext.dl4j')
+    // provide the name of the update site project
+    knimetools.defaultTychoBuild('org.knime.update.ext.dl4j')
 
-	// workflowTests.runTests(
-	// 	"org.knime.features.ext.dl4j.testing.feature.group",
-	// 	false,
-	// 	["knime-core", "knime-shared", "knime-tp", "knime-base"],
-	// )
+	workflowTests.runTests(
+        dependencies: [
+            repositories: ["knime-dl4j"]
+        ]
+	)
 
-	// stage('Sonarqube analysis') {
-	// 	env.lastStage = env.STAGE_NAME
-	// 	workflowTests.runSonar()
-	// }
- } catch (ex) {
-	 currentBuild.result = 'FAILED'
-	 throw ex
- } finally {
-	 notifications.notifyBuild(currentBuild.result);
- }
-/* vim: set ts=4: */
+	stage('Sonarqube analysis') {
+		env.lastStage = env.STAGE_NAME
+		workflowTests.runSonar()
+	}
+} catch (ex) {
+    currentBuild.result = 'FAILURE'
+    throw ex
+} finally {
+    notifications.notifyBuild(currentBuild.result);
+}
+
+/* vim: set shiftwidth=4 expandtab smarttab: */

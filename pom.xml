@@ -36,7 +36,7 @@
         <module>org.knime.ext.dl4j.bin.windows.x86_64.gpu.cuda8_0</module>
         <module>org.knime.ext.dl4j.libs</module>
         <module>org.knime.features.ext.dl4j</module>
-        <module>org.knime.ext.dl4j.testing</module>
+        <module>org.knime.ext.dl4j.tests</module>
         <module>org.knime.features.ext.dl4j.testing</module>
         <module>org.knime.update.ext.dl4j</module>
     </modules>

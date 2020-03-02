@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.knime.ext.dl4j.testing</name>
+	<name>org.knime.ext.dl4j.tests</name>
 	<comment></comment>
 	<projects>
 	</projects>
